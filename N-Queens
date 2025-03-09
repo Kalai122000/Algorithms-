@@ -3,13 +3,9 @@
 #include <math.h>
 void print(int n, int *board, int *count) {
     int i, j;
-    printf("\n\n Possibility %d:\n\n", ++(*count));
-
-    for (i = 1; i <= n; ++i)
-        printf("\t%d", i);
-
+    printf("\n\nPossibility %d:\n\n", ++(*count));
     for (i = 1; i <= n; ++i) {
-        printf("\n\n%d", i);
+        printf("\n");
         for (j = 1; j <= n; ++j) {
             if (board[i] == j)
                 printf("\tQ"); 

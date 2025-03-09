@@ -3,14 +3,14 @@
 #include <math.h>
 void print(int n, int *board, int *count) {
     int i, j;
-    printf("\n\nPossibility %d:\n\n", ++(*count));
+    printf("\n\nPossibility %d:\n", ++(*count));
     for (i = 1; i <= n; ++i) {
-        printf("\n");
+        printf("\n\n");
         for (j = 1; j <= n; ++j) {
             if (board[i] == j)
-                printf("\tQ"); 
+                printf("  Q"); 
             else
-                printf("\t*"); 
+                printf("  *"); 
         }
     }
 }

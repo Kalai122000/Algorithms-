@@ -50,3 +50,51 @@ int main() {
     queen(1, n, board, &count);
     return 0;
 }
+
+
+==========
+public class NQueens {
+    private static int count = 0;
+
+    public static void main(String[] args) {
+        int n = 4;
+        int[] board = new int[n + 1];
+        solveQueens(1, n, board);
+    }
+
+    private static void printBoard(int n, int[] board) {
+        System.out.println("\n\nPossibility " + (++count) + ":");
+        for (int i = 1; i <= n; i++) {
+            System.out.println();
+            for (int j = 1; j <= n; j++) {
+                if (board[i] == j) {
+                    System.out.print("  Q");
+                } else {
+                    System.out.print("  *");
+                }
+            }
+        }
+    }
+
+    private static boolean isValidPlace(int row, int column, int[] board) {
+        for (int i = 1; i < row; i++) {
+            if (board[i] == column || Math.abs(board[i] - column) == Math.abs(i - row)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static void solveQueens(int row, int n, int[] board) {
+        for (int column = 1; column <= n; column++) {
+            if (isValidPlace(row, column, board)) {
+                board[row] = column;
+                if (row == n) {
+                    printBoard(n, board);
+                } else {
+                    solveQueens(row + 1, n, board);
+                }
+            }
+        }
+    }
+}

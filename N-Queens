@@ -98,3 +98,39 @@ public class NQueens {
         }
     }
 }
+=========================
+
+def print_board(n, board, count):
+    count[0] += 1
+    print(f"\n\nPossibility {count[0]}:")
+    for i in range(1, n + 1):
+        print("\n")
+        for j in range(1, n + 1):
+            if board[i] == j:
+                print("  Q", end="")
+            else:
+                print("  *", end="")
+
+def is_valid_place(row, column, board):
+    for i in range(1, row):
+        if board[i] == column or abs(board[i] - column) == abs(i - row):
+            return False
+    return True
+
+def solve_queens(row, n, board, count):
+    for column in range(1, n + 1):
+        if is_valid_place(row, column, board):
+            board[row] = column
+            if row == n:
+                print_board(n, board, count)
+            else:
+                solve_queens(row + 1, n, board, count)
+
+def main():
+    n = int(input())
+    board = [0] * (n + 1)
+    count = [0]
+    solve_queens(1, n, board, count)
+
+if __name__ == "__main__":
+    main()

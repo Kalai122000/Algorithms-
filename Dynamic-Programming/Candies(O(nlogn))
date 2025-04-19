@@ -1,0 +1,52 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int[] rating = new int[N];
+        int[] candy = new int[N];
+        List<Pair> order = new ArrayList<>();
+
+        Arrays.fill(candy, 1);
+
+        for (int i = 0; i < N; i++) {
+            rating[i] = sc.nextInt();
+            order.add(new Pair(rating[i], i));
+        }
+
+        Collections.sort(order);
+
+        for (int i = 0; i < N; i++) {
+            int x = order.get(i).index;
+            if (x - 1 >= 0 && rating[x - 1] < rating[x]) {
+                candy[x] = Math.max(candy[x], candy[x - 1] + 1);
+            }
+            if (x + 1 <= N - 1 && rating[x + 1] < rating[x]) {
+                candy[x] = Math.max(candy[x], candy[x + 1] + 1);
+            }
+        }
+
+        long total = 0;
+        for (int c : candy) {
+            total += c;
+        }
+
+        System.out.println(total);
+    }
+
+    static class Pair implements Comparable<Pair> {
+        int value;
+        int index;
+
+        Pair(int value, int index) {
+            this.value = value;
+            this.index = index;
+        }
+
+        @Override
+        public int compareTo(Pair other) {
+            return Integer.compare(this.value, other.value);
+        }
+    }
+}

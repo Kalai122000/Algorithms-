@@ -1,0 +1,35 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int[] rating = new int[N];
+        int[] candies = new int[N];
+        
+        for (int i = 0; i < N; i++) {
+            rating[i] = scanner.nextInt();
+            candies[i] = 1;
+        }
+        
+        for (int i = 1; i < N; i++) {
+            if (rating[i] > rating[i - 1]) {
+                candies[i] = candies[i - 1] + 1;
+            }
+        }
+        
+        for (int i = N - 2; i >= 0; i--) {
+            if (rating[i] > rating[i + 1] && candies[i] <= candies[i + 1]) {
+                candies[i] = candies[i + 1] + 1;
+            }
+        }
+        
+        long result = 0;
+        for (int candy : candies) {
+            result += candy;
+        }
+        
+        System.out.println(result);
+        scanner.close();
+    }
+}

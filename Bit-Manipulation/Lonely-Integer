@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class Main {
+    
+    public static int lonelyinteger(List<Integer> a) {
+        int result = 0;
+        // Successive XOR operations will cancel out pairs
+        // Example: 6 ^ 6 ^ 8 ^ 8 ^ 9 = 9
+        // XOR properties:
+        // 1. Order doesn't matter (commutative)
+        // 2. 0 ^ x = x
+        // 3. x ^ x = 0
+        
+        for (int num : a) {
+            result ^= num;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int aSize = sc.nextInt();
+        sc.nextLine(); 
+        
+        List<Integer> a = new ArrayList<>();
+        for (int i = 0; i < aSize; i++) {
+            int aItem = sc.nextInt();
+            a.add(aItem);
+        }
+        
+        int res = lonelyinteger(a);
+        System.out.println(res);
+        
+        scanner.close();
+    }
+}

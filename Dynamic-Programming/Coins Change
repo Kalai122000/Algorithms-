@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+public class CoinChange {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int M = scanner.nextInt();
+        int[] coins = new int[M];
+        
+        for (int i = 0; i < M; i++) {
+            coins[i] = scanner.nextInt();
+        }
+        
+        long[] dp = new long[N + 1];
+        dp[0] = 1;  // Base case: 1 way to make 0 amount
+        
+        for (int coin : coins) {
+            for (int j = coin; j <= N; j++) {
+                dp[j] += dp[j - coin];
+            }
+        }
+        
+        System.out.println(dp[N]);
+    }
+}

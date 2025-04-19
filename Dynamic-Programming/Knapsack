@@ -1,0 +1,60 @@
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        
+        while (T-- > 0) {
+            int n = sc.nextInt();
+            int k = sc.nextInt();
+            int[] a = new int[n];
+            boolean[] buildable = new boolean[k + 1];
+            
+            for (int i = 0; i < n; i++) {
+                a[i] = sc.nextInt();
+            }
+            
+            Arrays.fill(buildable, false);
+            buildable[0] = true;
+            boolean cornerCase = false;
+            
+            for (int num : a) {
+                if (k % num == 0 || num == 1) {
+                    System.out.println(k);
+                    cornerCase = true;
+                    break;
+                }
+            }
+            
+            if (cornerCase) {
+                continue;
+            }
+            
+            for (int num : a) {
+                for (int j = 0; j + num <= k; j++) {
+                    if (buildable[j]) {
+                        buildable[j + num] = true;
+                    }
+                }
+                if (buildable[k]) {
+                    break;
+                }
+            }
+            
+            boolean builtInt = false;
+            for (int i = k; i >= 0; i--) {
+                if (buildable[i]) {
+                    System.out.println(i);
+                    builtInt = true;
+                    break;
+                }
+            }
+            
+            if (!builtInt) {
+                System.out.println(0);
+            }
+        }
+    }
+}

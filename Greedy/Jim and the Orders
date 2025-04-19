@@ -1,0 +1,36 @@
+
+// Algorithm: Maintain a list of pairs (t[i] + d[i], i+1), sort by the first value and output by second
+// Runtime: O(nlogn) since we have to sort the list
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        List<Pair> order = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            int t = scanner.nextInt();
+            int d = scanner.nextInt();
+            order.add(new Pair(t + d, i + 1));
+        }
+        Collections.sort(order);
+        for (Pair p : order) {
+            System.out.print(p.index + " ");
+        }
+    }
+    static class Pair implements Comparable<Pair> {
+        int sum;
+        int index;
+
+        public Pair(int sum, int index) {
+            this.sum = sum;
+            this.index = index;
+        }
+        @Override
+        public int compareTo(Pair other) {
+            return Integer.compare(this.sum, other.sum);
+        }
+    }
+}

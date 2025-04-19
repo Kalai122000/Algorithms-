@@ -1,0 +1,74 @@
+// Prim's Algorithm is a greedy node-based algorithm that finds a MST (minimum spanning tree) in a graph
+// Description of Algorithm:
+// 1. Begin with a set of visited nodes that originally only contains the starting node
+// 2. Iterate over the set of visited nodes and find the minimum weighted edge connecting a visited node with an unvisited node
+// 3. Add the unvisited node to the set of visited nodes and add the weight of the edge to the size of the MST
+// 4. Repeat step 2-3 until there are no longer any unvisited nodes
+// Total runtime: Current implementation is O(V^3) but we can reduce this significantly
+// We can get it down to O(V^2) using a more clever way to store the solved vertices
+// We can get it down to O(ElogV) using a fibonacci heap + adjacency list 
+
+
+import java.util.Scanner;
+
+public class PrimMST {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int M = scanner.nextInt();
+        
+        int[][] adjacencyMatrix = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                adjacencyMatrix[i][j] = -1;
+            }
+        }
+        
+        for (int i = 0; i < M; i++) {
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            int r = scanner.nextInt();
+            if (adjacencyMatrix[x-1][y-1] != -1) {
+                if (r < adjacencyMatrix[x-1][y-1]) {
+                    adjacencyMatrix[x-1][y-1] = r;
+                    adjacencyMatrix[y-1][x-1] = r;
+                }
+            } else {
+                adjacencyMatrix[x-1][y-1] = r;
+                adjacencyMatrix[y-1][x-1] = r;
+            }
+        }
+        
+        boolean[] visited = new boolean[N];
+        int S = scanner.nextInt();
+        visited[S-1] = true;
+        int size = 0;
+        
+        while (true) {
+            boolean foundUnvisited = false;
+            int unvisitedNode = 0;
+            int minEdge = Integer.MAX_VALUE;
+            
+            for (int i = 0; i < N; i++) {
+                if (visited[i]) {
+                    for (int j = 0; j < N; j++) {
+                        if (!visited[j] && adjacencyMatrix[i][j] != -1) {
+                            foundUnvisited = true;
+                            if (adjacencyMatrix[i][j] < minEdge) {
+                                unvisitedNode = j;
+                                minEdge = adjacencyMatrix[i][j];
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if (!foundUnvisited) break;
+            
+            visited[unvisitedNode] = true;
+            size += minEdge;
+        }
+        
+        System.out.println(size);
+    }
+}

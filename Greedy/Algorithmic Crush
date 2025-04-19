@@ -1,0 +1,32 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+        
+        long[] list = new long[N];
+        
+        for (int i = 0; i < M; i++) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            long k = sc.nextLong();
+            list[a-1] += k;
+            if (b < N) {
+                list[b] -= k;
+            }
+        }
+        
+        long answer = 0;
+        long current = 0;
+        for (int i = 0; i < N; i++) {
+            current += list[i];
+            if (current > answer) {
+                answer = current;
+            }
+        }
+        
+        System.out.println(answer);
+    }
+}

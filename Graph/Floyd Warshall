@@ -1,0 +1,46 @@
+
+// Floyd-Warshall is an APSP (all pairs shortest path) algorithm
+// - When the algorithm finishes, the shortest path between any two vertices in the graph will be known
+// - Note: We could just call Dijkstra's or Bellman-Ford on every vertex in the graph, but Floyd-Warshall
+// is more efficient
+
+
+import java.util.Scanner;
+
+public class FloydWarshall {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int V = scanner.nextInt();
+        int E = scanner.nextInt();
+        int[][] dist = new int[V][V];
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                dist[i][j] = (i == j) ? 0 : Integer.MAX_VALUE;
+            }
+        }
+        for (int i = 0; i < E; i++) {
+            int s = scanner.nextInt() - 1;  // Convert to 0-based index
+            int d = scanner.nextInt() - 1;
+            int w = scanner.nextInt();
+            dist[s][d] = w;
+        }
+        for (int k = 0; k < V; k++) {
+            for (int i = 0; i < V; i++) {
+                for (int j = 0; j < V; j++) {
+                    if (dist[i][k] != Integer.MAX_VALUE && 
+                        dist[k][j] != Integer.MAX_VALUE && 
+                        dist[i][j] > dist[i][k] + dist[k][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+                }
+            }
+        }
+        int Q = scanner.nextInt();
+        for (int i = 0; i < Q; i++) {
+            int a = scanner.nextInt() - 1;
+            int b = scanner.nextInt() - 1;
+            System.out.println(dist[a][b] == Integer.MAX_VALUE ? -1 : dist[a][b]);
+        }
+    }
+}

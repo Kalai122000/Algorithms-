@@ -1,0 +1,95 @@
+// Dijkstra's is a greedy SSSP (single source shortest path) algorithm
+// - When the algorithm finishes, the shortest distance from source to all other vertex's in the graph will be known
+// - Dikstra's only works for graphs with positive edge weights (use Bellman-Ford for negative edge weights)
+// Description of Algorithm:
+// 1. Create a set of unvisited vertices, all with initial distance INF
+// 2. Mark the source node as visited with distance 0, update its neighbours to have distance equal to their edge weight
+// 3. Find the unvisited vertex with the minimum distance (call it U)
+// 4. Calculate the distance from U to each of its unvisited neighbours (call it D)
+// 5. If D < the distance at that node, update the nodes distance from source
+// 6. Mark U as visited
+// Repeat steps 3-6 until the destination node is reached or till no unvisited vertex is found
+// Total Runtime: O(V^2) in current implementation
+// Can improve runtime to O(ElogV) using a heap
+
+import java.util.*;
+
+public class Dijkstra {
+
+    static class Edge {
+        int vertex;
+        int weight;
+
+        public Edge(int vertex, int weight) {
+            this.vertex = vertex;
+            this.weight = weight;
+        }
+    }
+
+    public static void dijkstra(List<List<Edge>> adjacencyList, int src, int N) {
+        int[] dist = new int[N];
+        boolean[] determined = new boolean[N];
+
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
+
+        for (int count = 0; count < N-1; count++) {
+            int mdv = -1;
+            int min = Integer.MAX_VALUE;
+
+            for (int i = 0; i < N; i++) {
+                if (!determined[i] && dist[i] < min) {
+                    min = dist[i];
+                    mdv = i;
+                }
+            }
+
+            if (mdv == -1) break;
+
+            determined[mdv] = true;
+
+            for (Edge edge : adjacencyList.get(mdv)) {
+                int av = edge.vertex;
+                int weight = edge.weight;
+                if (!determined[av] && dist[mdv] + weight < dist[av]) {
+                    dist[av] = dist[mdv] + weight;
+                }
+            }
+        }
+
+        for (int i = 0; i < N; i++) {
+            if (i != src && dist[i] != 0) {
+                System.out.print(dist[i] == Integer.MAX_VALUE ? "-1 " : dist[i] + " ");
+            }
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int T = scanner.nextInt();
+
+        while (T-- > 0) {
+            if (T < 0) break;
+
+            int N = scanner.nextInt();
+            int M = scanner.nextInt();
+            List<List<Edge>> adjacencyList = new ArrayList<>();
+
+            for (int i = 0; i <= N; i++) {
+                adjacencyList.add(new ArrayList<>());
+            }
+
+            for (int i = 0; i < M; i++) {
+                int vertex1 = scanner.nextInt();
+                int vertex2 = scanner.nextInt();
+                int weight = scanner.nextInt();
+                adjacencyList.get(vertex1).add(new Edge(vertex2, weight));
+                adjacencyList.get(vertex2).add(new Edge(vertex1, weight));
+            }
+
+            int start = scanner.nextInt();
+            dijkstra(adjacencyList, start, N+1);
+        }
+    }
+}

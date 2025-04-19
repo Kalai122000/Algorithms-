@@ -1,0 +1,95 @@
+// Kruskal's Algorithm is a greedy edge-based algorithm that finds a MST (minimum spanning tree) in a graph
+// Description of Algorithm:
+// 1. Create a set E containing all edges in the graph
+// 2. Sort E
+// 3. Remove the minimum edge from E and include it in the MST as long as it doesn't create a cycle!
+// 4. Repeat step 3 until the MST is complete or E is empty
+// Note: Step 3 involves checking if the added edge creates a cycle
+// In order to do this quickly, we use a Union-Find algorithm: http://www.geeksforgeeks.org/union-find/
+// Total runtime: O(ElogE) = O(ElogV), since E is at most V(V-1) in a directed graph
+// Fun fact: Kruskal is pronounced "crusk-al"!
+
+
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Scanner;
+
+public class KruskalMST {
+
+    static class Edge {
+        int src, dest, weight;
+
+        public Edge(int src, int dest, int weight) {
+            this.src = src;
+            this.dest = dest;
+            this.weight = weight;
+        }
+    }
+
+    static class Subset {
+        int parent, rank;
+    }
+    static int find(Subset subsets[], int i) {
+        if (subsets[i].parent != i)
+            subsets[i].parent = find(subsets, subsets[i].parent);
+        return subsets[i].parent;
+    }
+    static void union(Subset subsets[], int x, int y) {
+        int xroot = find(subsets, x);
+        int yroot = find(subsets, y);
+
+        if (subsets[xroot].rank < subsets[yroot].rank)
+            subsets[xroot].parent = yroot;
+        else if (subsets[xroot].rank > subsets[yroot].rank)
+            subsets[yroot].parent = xroot;
+        else {
+            subsets[yroot].parent = xroot;
+            subsets[xroot].rank++;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int V = scanner.nextInt();
+        int E = scanner.nextInt();
+
+        Edge[] edges = new Edge[E];
+        for (int i = 0; i < E; i++) {
+            int src = scanner.nextInt();
+            int dest = scanner.nextInt();
+            int weight = scanner.nextInt();
+            edges[i] = new Edge(src, dest, weight);
+        }
+        Arrays.sort(edges, Comparator.comparingInt(e -> e.weight));
+
+        Edge[] mst = new Edge[V - 1];
+        int mstSize = 0;
+
+        Subset[] subsets = new Subset[V];
+        for (int v = 0; v < V; v++) {
+            subsets[v] = new Subset();
+            subsets[v].parent = v;
+            subsets[v].rank = 0;
+        }
+
+        // Kruskal's algorithm
+        for (int i = 0; i < E && mstSize < V - 1; i++) {
+            Edge nextEdge = edges[i];
+
+            int x = find(subsets, nextEdge.src - 1);
+            int y = find(subsets, nextEdge.dest - 1);
+
+            if (x != y) {
+                mst[mstSize++] = nextEdge;
+                union(subsets, x, y);
+            }
+        }
+        int totalWeight = 0;
+        for (int i = 0; i < mstSize; i++) {
+            totalWeight += mst[i].weight;
+        }
+
+        System.out.println(totalWeight);
+    }
+}

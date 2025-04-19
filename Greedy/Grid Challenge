@@ -1,0 +1,38 @@
+// Algorithm: Sort each row lexicographically, then check if each of the columns are lexicographically sorted
+// Runtime: O(n^2) -> O(nlogn) to sort every row, but it takes O(n^2) time to check that every column is sorted
+
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class GridSorting {
+    public static void main(String[] args) {
+        Scanner sc= new Scanner(System.in);
+        int T = sc.nextInt();
+        
+        while (T-- > 0) {
+            int N = sc.nextInt();
+            sc.nextLine(); 
+            
+            char[][] matrix = new char[N][N];
+            for (int i = 0; i < N; i++) {
+                String row = scanner.nextLine();
+                char[] chars = row.toCharArray();
+                Arrays.sort(chars);
+                matrix[i] = chars;
+            }
+            
+            boolean arrangeable = true;
+            for (int i = 0; i < N && arrangeable; i++) {
+                for (int j = 1; j < N; j++) {
+                    if (matrix[j][i] < matrix[j-1][i]) {
+                        arrangeable = false;
+                        break;
+                    }
+                }
+            }
+            
+            System.out.println(arrangeable ? "YES" : "NO");
+        }
+    }
+}

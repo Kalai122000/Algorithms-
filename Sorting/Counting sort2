@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    public static List<Integer> countingSort(List<Integer> arr) {
+        int[] count = new int[100];
+        for (int num : arr) {
+            count[num]++;
+        }
+        
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            while (count[i] > 0) {
+                result.add(i);
+                count[i]--;
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        int n = Integer.parseInt(bufferedReader.readLine().trim());
+        String[] arrItems = bufferedReader.readLine().split("\\s+");
+
+        List<Integer> arr = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            int arrItem = Integer.parseInt(arrItems[i]);
+            arr.add(arrItem);
+        }
+
+        List<Integer> result = countingSort(arr);
+
+        for (int i = 0; i < result.size(); i++) {
+            bufferedWriter.write(String.valueOf(result.get(i)));
+
+            if (i != result.size() - 1) {
+                bufferedWriter.write(" ");
+            }
+        }
+
+        bufferedWriter.newLine();
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}

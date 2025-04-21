@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        sc.nextLine(); 
+        String[] stringArray = new String[N];
+        
+        for (int i = 0; i < N; i++) {
+            String line = sc.nextLine();
+            StringBuilder condensed = new StringBuilder();
+            for (char c = 'a'; c <= 'z'; c++) {
+                if (line.indexOf(c) != -1) {
+                    condensed.append(c);
+                }
+            }
+            stringArray[i] = condensed.toString();
+        }
+        
+        int smallestStringLength = stringArray[0].length();
+        int indexOfSmallestString = 0;
+        
+        for (int i = 1; i < N; i++) {
+            if (stringArray[i].length() < smallestStringLength) {
+                smallestStringLength = stringArray[i].length();
+                indexOfSmallestString = i;
+            }
+        }
+        
+        int commonGems = 0;
+        
+        for (int i = 0; i < smallestStringLength; i++) {
+            char currentChar = stringArray[indexOfSmallestString].charAt(i);
+            boolean allContain = true;
+            for (String s : stringArray) {
+                if (s.indexOf(currentChar) == -1) {
+                    allContain = false;
+                    break;
+                }
+            }
+            if (allContain) {
+                commonGems++;
+            }
+        }
+        
+        System.out.println(commonGems);
+    }
+}

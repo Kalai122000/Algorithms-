@@ -1,0 +1,39 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] input = new int[n];
+        TreeMap<Integer, Integer> answer = new TreeMap<>();
+        
+        for (int i = 0; i < n; i++) {
+            input[i] = sc.nextInt();
+            answer.put(input[i], 0);
+        }
+
+        Arrays.sort(input);
+
+        int smallestDifference = Integer.MAX_VALUE;
+        for (int i = 0; i < n - 1; i++) {
+            int diff = input[i + 1] - input[i];
+            if (diff < smallestDifference) {
+                smallestDifference = diff;
+            }
+        }
+
+        for (Map.Entry<Integer, Integer> entry : answer.entrySet()) {
+            int key = entry.getKey();
+            if (answer.containsKey(key + smallestDifference)) {
+                answer.put(key, answer.get(key) + 1);
+                answer.put(key + smallestDifference, answer.get(key + smallestDifference) + 1);
+            }
+        }
+
+        for (Map.Entry<Integer, Integer> entry : answer.entrySet()) {
+            for (int i = 0; i < entry.getValue(); i++) {
+                System.out.print(entry.getKey() + " ");
+            }
+        }
+    }
+}

@@ -1,0 +1,47 @@
+
+// Greedy approach: Always take the largest number from the back of the array and swap it with the current index
+// (it's basically a selection sort where we stop after K swaps)
+// Runtime: O(n^2) -> this isn't quite enough to pass all test cases
+
+// Improved approach: Since we know the list only contains numbers 1 -> N, we can
+// simply maintain a hashtable of each number and it's index in the array. Every time we swap,
+// just lookup the index of the largest element in the hashtable.
+// Runtime: O(n)
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int K = scanner.nextInt();
+        int[] arr = new int[N];
+        Map<Integer, Integer> indexOfElem = new HashMap<>();
+        
+        for (int i = 0; i < N; i++) {
+            arr[i] = scanner.nextInt();
+            indexOfElem.put(arr[i], i);
+        }
+        
+        for (int i = 0; i < N; i++) {
+            if (K == 0) {
+                break;
+            }
+            if (arr[i] == N - i) {
+                continue;
+            }
+            int currentValue = arr[i];
+            int targetValue = N - i;
+            
+            int tempIndex = indexOfElem.get(targetValue);
+            indexOfElem.put(currentValue, tempIndex);
+            arr[tempIndex] = currentValue;
+            arr[i] = targetValue;
+            K--;
+        }
+        
+        for (int i = 0; i < N; i++) {
+            System.out.print(arr[i] + " ");
+        }
+    }
+}

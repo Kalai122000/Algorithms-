@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+public class Solution {
+    public static void insertionSort(int arSize, int[] ar) {
+        for (int i = 1; i < arSize; i++) {
+            int V = ar[i];
+            for (int j = i; j >= 0; j--) {
+                if (j > 0 && V < ar[j - 1]) {
+                    ar[j] = ar[j - 1];
+                } else {
+                    ar[j] = V;
+                    break;
+                }
+            }
+          
+            for (int k = 0; k < arSize; k++) {
+                System.out.print(ar[k] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int arSize = scanner.nextInt();
+        int[] ar = new int[arSize];
+        
+        for (int i = 0; i < arSize; i++) {
+            ar[i] = scanner.nextInt();
+        }
+        
+        insertionSort(arSize, ar);
+        
+        scanner.close();
+    }
+}

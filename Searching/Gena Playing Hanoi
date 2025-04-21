@@ -1,0 +1,63 @@
+import java.util.*;
+
+public class Main {
+    static Map<Integer, Boolean> visited = new HashMap<>();
+
+    static void possible(int hash, List<Integer> next) {
+        int[] tops = {-1, -1, -1, -1};
+        int temp;
+        for (int i = 0; i < 10; i++) {
+            if (tops[3 & (hash >> (i << 1))] == -1) {
+                tops[3 & (hash >> (i << 1))] = i;
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            if (tops[i] != -1) {
+                for (int j = 0; j < 4; j++) {
+                    if (tops[j] == -1 || tops[i] < tops[j]) {
+                        temp = hash;
+                        temp = temp & (~(3 << (tops[i] << 1)));
+                        temp |= (j << (tops[i] << 1));
+                        if (!visited.getOrDefault(temp, false)) {
+                            visited.put(temp, true);
+                            next.add(temp);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    static long bfs(int root) {
+        long ans = 0;
+        List<Integer> current = new ArrayList<>();
+        current.add(root);
+        while (true) {
+            ans++;
+            List<Integer> next = new ArrayList<>();
+            for (int x : current) {
+                possible(x, next);
+            }
+
+            if (visited.getOrDefault(0, false)) {
+                return ans;
+            }
+
+            current = next;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int hash = 0;
+        for (int i = 0; i < n; i++) {
+            int t = scanner.nextInt();
+            t--;
+            hash |= t << (i << 1);
+        }
+
+        visited.put(hash, true);
+        System.out.println(bfs(hash));
+    }
+}

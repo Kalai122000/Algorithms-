@@ -1,0 +1,26 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        
+        for (int a0 = 0; a0 < t; a0++) {
+            int n = sc.nextInt();  // Money Bobby has
+            int c = sc.nextInt();  // Cost per chocolate
+            int m = sc.nextInt();  // Wrappers needed for exchange
+            
+            int currentChoco = n / c;
+            long numChocolates = currentChoco;
+            
+            while (currentChocolates >= m) {
+                // Exchange wrappers for more chocolates
+                int extra = currentChoco / m;
+                numChocolates += extraChocolates;
+                currentChoco = currentChoco % m + extra;
+            }
+            
+            System.out.println(numChocolates);
+        }
+    }
+}

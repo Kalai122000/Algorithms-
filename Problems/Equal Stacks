@@ -1,0 +1,56 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc= new Scanner(System.in);
+        int n1 = sc.nextInt();
+        int n2 = sc.nextInt();
+        int n3 = sc.nextInt();
+        
+        int h1 = 0, h2 = 0, h3 = 0; 
+        
+        List<Integer> tower1 = new ArrayList<>();
+        for (int i = 0; i < n1; i++) {
+            int num = sc.nextInt();
+            tower1.add(num);
+            h1 += num;
+        }
+        
+        List<Integer> tower2 = new ArrayList<>();
+        for (int i = 0; i < n2; i++) {
+            int num = sc.nextInt();
+            tower2.add(num);
+            h2 += num;
+        }
+        
+        List<Integer> tower3 = new ArrayList<>();
+        for (int i = 0; i < n3; i++) {
+            int num = sc.nextInt();
+            tower3.add(num);
+            h3 += num;
+        }
+        
+        boolean equalHeight = false;
+        if (h1 == h2 && h2 == h3) {
+            equalHeight = true;
+        }
+        
+        int r1 = 0, r2 = 0, r3 = 0; 
+        while (!equalHeight) {
+            if (h1 >= h2 && h1 >= h3) {
+                h1 -= tower1.get(r1);
+                r1++;
+            } else if (h2 >= h1 && h2 >= h3) {
+                h2 -= tower2.get(r2);
+                r2++;
+            } else if (h3 >= h1 && h3 >= h2) {
+                h3 -= tower3.get(r3);
+                r3++;
+            }
+            if ((h1 == h2 && h2 == h3) || (h1 == 0 && h2 == 0 && h3 == 0)) {
+                equalHeight = true;
+            }
+        }
+        System.out.println(h1);
+    }
+}

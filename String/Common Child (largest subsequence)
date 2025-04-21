@@ -1,0 +1,37 @@
+// We need to use a staticly allocated array or we will run out of stack space (results in a segmentation fault)
+// Use dynamic programming to determine the size of the largest subsequence
+    // We can break the problem down into parts by considering each string, character by character
+    // If the two strings have the same char at the same index, then the largest subsequence at that point
+    // is simply the largest subsequence before that char was added to either string + 1
+    // If the two strings DON'T have the same char at the same index, then the largest subsequence at that point
+    // is the larger of either a) string1 without that char or b) string2 without that char 
+
+public class Main {
+    public static void main(String[] args) {
+        String s1 = "AGGTAB";
+        String s2 = "GXTXAYB";
+        
+        int m = s1.length();
+        int n = s2.length();
+        
+        // Using a 2D array for DP table
+        int[][] dp = new int[m+1][n+1];
+        
+        // Build the DP table bottom-up
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0 || j == 0) {
+                    dp[i][j] = 0;
+                }
+                else if (s1.charAt(i-1) == s2.charAt(j-1)) {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                }
+                else {
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+        
+        System.out.println(dp[m][n]);
+    }
+}

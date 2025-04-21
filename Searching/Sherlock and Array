@@ -1,0 +1,43 @@
+// We can use dynamic programming to calculate sumLeft[i] and sumRight[i] in O(n) time
+// Then we just iterate over the list and compare indices
+// Overall runtime: O(n)
+
+
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while (T-- > 0) {
+            int N = sc.nextInt();
+            int[] A = new int[N];
+            int[] sumLeft = new int[N];
+            int[] sumRight = new int[N];
+            
+            A[0] = sc.nextInt();
+            sumLeft[0] = 0;
+            sumRight[N-1] = 0;
+            
+            for (int i = 1; i < N; i++) {
+                A[i] = sc.nextInt();
+                sumLeft[i] = sumLeft[i-1] + A[i-1];
+            }
+            
+            for (int i = N-2; i >= 0; i--) {
+                sumRight[i] = sumRight[i+1] + A[i+1];
+            }
+            
+            boolean exists = false;
+            for (int i = 0; i < N; i++) {
+                if (sumLeft[i] == sumRight[i]) {
+                    exists = true;
+                    break;
+                }
+            }
+            
+            System.out.println(exists ? "YES" : "NO");
+        }
+    }
+}

@@ -1,0 +1,39 @@
+Jump Search in Python
+
+Jump search is a searching algorithm for sorted arrays that works by jumping 
+ahead by fixed steps and then performing a linear search in the identified block.
+
+Time Complexity
+Best case: O(1) - target is the first element
+Average case: O(√n) - optimal step size
+Worst case: O(√n) - when the target is at the end
+
+Space Complexity: O(1)
+
+
+import math
+def jump_search(arr, target):
+    n = len(arr)
+    
+    if n == 0:
+        return -1
+
+    step = int(math.sqrt(n))
+    prev = 0
+    
+    while arr[min(step, n) - 1] < target:
+        prev = step
+        step += int(math.sqrt(n))
+        
+        if prev >= n:
+            return -1
+    
+    for i in range(prev, min(step, n)):
+        if arr[i] == target:
+            return i
+  
+        if arr[i] > target:
+            break
+    
+    return -1
+    

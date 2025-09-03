@@ -2,6 +2,13 @@ Interpolation search is an improved variant of binary search that works on
 uniformly distributed sorted arrays. Instead of always dividing the array in half,
 it estimates the position of the target value using interpolation formula.
 
+Time Complexity
+Best case: O(1) - when the element is found in the first probe
+Average case: O(log log n) - for uniformly distributed data
+Worst case: O(n) - when elements are exponentially distributed
+
+Space Complexity: O(1)
+
 
 def interpolation_search(arr, target):
     low = 0

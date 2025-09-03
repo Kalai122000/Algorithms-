@@ -1,0 +1,54 @@
+Exponential search is a searching algorithm for sorted arrays that combines two approaches:
+
+Exponential phase: Find a range where the element might be present
+
+Binary search: Search within that identified range
+
+How It Works :
+Start with a small range (size 1)
+Double the range exponentially until we find a range that might contain the target
+Perform binary search within that range
+
+
+Time Complexity
+Best case: O(1) - when target is the first element
+Average case: O(log n) - same as binary search
+Worst case: O(log n) - when target is at the end
+
+Space Complexity: O(1) for iterative, O(log n) for recursive
+
+
+def exponential_search(arr, target):
+
+    n = len(arr)
+    
+    # If array is empty
+    if n == 0:
+        return -1
+
+    if n == 0:
+        return -1
+    
+    if arr[0] == target:
+        return 0
+    
+    i = 1
+    while i < n and arr[i] <= target:
+        i *= 2
+    
+    low = i // 2
+    high = min(i, n - 1)
+    
+    return binary_search(arr, target, low, high)
+
+def binary_search(arr, target, low, high):
+    
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1

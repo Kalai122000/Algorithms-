@@ -93,3 +93,51 @@ public class Dijkstra {
         }
     }
 }
+
+
+
+
+======================≠
+import java.util.*;
+
+public class Dijkstra {
+    static class Node {
+        int target, weight;
+        Node(int target, int weight) { this.target = target; this.weight = weight; }
+    }
+
+    public static void calculate(int start, List<List<Node>> adj, int n) {
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[start] = 0;
+
+        PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.weight));
+        pq.add(new Node(start, 0));
+
+        while (!pq.isEmpty()) {
+            Node current = pq.poll();
+            int u = current.target;
+
+            for (Node neighbor : adj.get(u)) {
+                if (dist[u] + neighbor.weight < dist[neighbor.target]) {
+                    dist[neighbor.target] = dist[u] + neighbor.weight;
+                    pq.add(new Node(neighbor.target, dist[neighbor.target]));
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) System.out.println("Node " + i + " distance: " + dist[i]);
+    }
+
+    public static void main(String[] args) {
+        int n = 5;
+        List<List<Node>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        adj.get(0).add(new Node(1, 9));
+        adj.get(0).add(new Node(2, 6));
+        adj.get(1).add(new Node(3, 2));
+        adj.get(2).add(new Node(3, 5));
+
+        calculate(0, adj, n);
+    }
+}

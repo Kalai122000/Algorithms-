@@ -1,0 +1,67 @@
+import java.util.*;
+
+public class Main {
+
+    // Check if it is safe to place a number
+    static boolean isSafeToPut(int i, int j, int option, int[][] board, int n) {
+
+        for (int k = 0; k < n; k++) {
+            if (board[k][j] == option || board[i][k] == option)
+                return false;
+        }
+
+        int starti = (i / 3) * 3;
+        int startj = (j / 3) * 3;
+
+        for (int p = starti; p < starti + 3; p++) {
+            for (int q = startj; q < startj + 3; q++) {
+                if (board[p][q] == option)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Sudoku Solver using backtracking
+    static boolean sudokuSolver(int i, int j, int[][] board, int n) {
+
+        if (i == n)
+            return true;
+
+        if (j == n)
+            return sudokuSolver(i + 1, 0, board, n);
+
+        if (board[i][j] != 0)
+            return sudokuSolver(i, j + 1, board, n);
+
+        for (int option = 1; option <= 9; option++) {
+            if (isSafeToPut(i, j, option, board, n)) {
+                board[i][j] = option;
+
+                if (sudokuSolver(i, j + 1, board, n))
+                    return true;
+
+                board[i][j] = 0; // backtrack
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        int[][] board = new int[9][9];
+
+        // Taking input
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                board[i][j] = sc.nextInt();
+            }
+        }
+
+        boolean ans = sudokuSolver(0, 0, board, 9);
+        System.out.println(ans);
+    }
+}
